@@ -91,9 +91,9 @@ abstract class DataCollector implements DataCollectorInterface
             $file = strtr($file, $this->xdebugReplacements);
         }
 
-        $url = strtr($this->getXdebugLinkTemplate(), ['%f' => $file, '%l' => $line]);
+        $url = strtr($this->getXdebugLinkTemplate(), array('%f' => $file, '%l' => $line));
         if ($url) {
-            return ['url' => $url, 'ajax' => $this->getXdebugShouldUseAjax()];
+            return array('url' => $url, 'ajax' => $this->getXdebugShouldUseAjax());
         }
     }
   
@@ -175,8 +175,9 @@ abstract class DataCollector implements DataCollectorInterface
      */
     public function getXdebugLinkTemplate()
     {
-        if (empty($this->xdebugLinkTemplate) && !empty(ini_get('xdebug.file_link_format'))) {
-            $this->xdebugLinkTemplate = ini_get('xdebug.file_link_format');
+        $file_link_format = ini_get('xdebug.file_link_format');
+        if (empty($this->xdebugLinkTemplate) && !empty($file_link_format)) {
+            $this->xdebugLinkTemplate = $file_link_format;
         }
 
         return $this->xdebugLinkTemplate;
